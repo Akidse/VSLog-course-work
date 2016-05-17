@@ -143,8 +143,7 @@ bool vslog::str_compare(const char pass1, const char pass2)
 void vslog::users_list()
 {
 	WIN32_FIND_DATAW wfd;
-    HANDLE const hFind = FindFirstFileW(L"data\\users\\*", &wfd);
- 
+    HANDLE const hFind = FindFirstFileW(L"data/users/*", &wfd);
     if (INVALID_HANDLE_VALUE != hFind)
     {
       do
