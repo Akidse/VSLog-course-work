@@ -1,4 +1,5 @@
-bool FileExists(const char *fname)
+bool FileExists(std::string fname)
 {
-  return _access(fname, 0) != -1;
+	const char *filename = fname.c_str();
+  return _access(filename, 0) != -1;
 }

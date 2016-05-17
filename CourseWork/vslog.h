@@ -14,7 +14,7 @@ public:
 	static void get_password(char &var);
 	static void clear_window();
 	static void user(char* action);
-	static bool str_compare(char &pass1, char &pass2);
+	static bool str_compare(const char pass1, const char pass2);
 	static void users_list();
 	static void delete_user();
 	static bool access();
@@ -33,10 +33,10 @@ void vslog::setLogged(int status)
 
 void vslog::verify()
 {
-	char path[71] = "users\\";
+	std::string path;
 	char filepass[64];
-	strcat(path, username);
-
+	path = get_path(path::USERS) + username;
+	std::cout << path << std::endl;
 	std::ifstream fpass;
 	fpass.open(path);
 	setLogged(0);
@@ -85,12 +85,13 @@ void vslog::clear_window()
 
 void vslog::user(char* action)
 {
-	char path[81] = "users/",nick[64], pass1[64],pass2[64];
+	std::string path, nick;
+	char pass1[64],pass2[64];
 	if(action == "add")
 	{
 		std::cout << "Enter name: ";
 		std::cin >> nick;
-		strcat(path, nick);
+		path = get_path(path::USERS) + nick;
 		if(FileExists(path))
 		{
 			vslog::error(text::ADD_USER_EXISTED);
@@ -99,7 +100,7 @@ void vslog::user(char* action)
 	}
 	else
 	{
-		strcat(path, username);
+		path = get_path(path::USERS) + nick;
 	}
 	
 
@@ -127,7 +128,7 @@ void vslog::user(char* action)
 	fout.close();
 }
 
-bool vslog::str_compare(char &pass1, char &pass2)
+bool vslog::str_compare(const char pass1, const char pass2)
 {
 	if(strcmp(&pass1, &pass2) == 0)
 	{
@@ -142,7 +143,7 @@ bool vslog::str_compare(char &pass1, char &pass2)
 void vslog::users_list()
 {
 	WIN32_FIND_DATAW wfd;
-    HANDLE const hFind = FindFirstFileW(L"users\\*", &wfd);
+    HANDLE const hFind = FindFirstFileW(L"data\\users\\*", &wfd);
  
     if (INVALID_HANDLE_VALUE != hFind)
     {
@@ -157,21 +158,21 @@ void vslog::users_list()
 
 void vslog::delete_user()
 {
-	char path[81] = "users/",nick[64];
+	std::string path,nick;
 	std::cout << "Enter name: ";
 	std::cin >> nick;
-	strcat(path, nick);
+	path = get_path(path::USERS) + nick;
 	if(!FileExists(path))
 	{
 		vslog::error(text::USER_NOT_EXIST);
 		return;
 	}
-	if(str_compare(*username, *nick))
+	if(str_compare(*username, *nick.c_str()))
 	{
 		vslog::error(text::USER_CANT_DELETE_HIMSELF);
 		return;
 	}
-	if (remove(path)==-1)
+	if (remove(path.c_str())==-1)
 	{
 		vslog::message(text::USER_DELETE_FAIL);
 	}
