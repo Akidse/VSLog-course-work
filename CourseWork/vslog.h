@@ -1,0 +1,201 @@
+class vslog
+{
+	static int status_log;
+	static bool superuser;
+	static char* superuser_name;
+public:
+	static char username[64];
+	static char password[64];
+	static int isLogged();
+	static void setLogged(int status);
+	static void verify();
+	static void message(text message);
+	static void error(text error);
+	static void get_password(char &var);
+	static void clear_window();
+	static void user(char* action);
+	static bool str_compare(char &pass1, char &pass2);
+	static void users_list();
+	static void delete_user();
+	static bool access();
+};
+
+int vslog::isLogged()
+{
+	return status_log;
+}
+
+void vslog::setLogged(int status)
+{
+	if(str_compare(*vslog::username,*superuser_name))vslog::superuser = TRUE; else vslog::superuser = FALSE;
+	status_log = status;
+}
+
+void vslog::verify()
+{
+	char path[71] = "users\\";
+	char filepass[64];
+	strcat(path, username);
+
+	std::ifstream fpass;
+	fpass.open(path);
+	setLogged(0);
+	if(fpass)
+	{
+		fpass >> filepass;
+		if(strcmp(password, filepass) == 0)
+		{
+			setLogged(1);
+		}
+		else
+		{
+			error(text::LOGIN_FAIL);
+		}
+	}
+	else
+	{
+		error(text::LOGIN_FAIL);
+	}
+	fpass.close();
+}
+
+void vslog::message(text message)
+{
+	std::cout << get_message(message) << std::endl;
+}
+void vslog::error(text error)
+{
+	std::cout << get_message(error) << std::endl;
+}
+
+void vslog::get_password(char &var)
+{
+	HANDLE hStdin = GetStdHandle(STD_INPUT_HANDLE); 
+	DWORD mode = 0;
+	GetConsoleMode(hStdin, &mode);
+	SetConsoleMode(hStdin, mode & (~ENABLE_ECHO_INPUT));
+	std::cin >> &var;
+	std::cout << std::endl;
+	SetConsoleMode(hStdin, mode);
+}
+void vslog::clear_window()
+{
+	system("cls");
+}
+
+void vslog::user(char* action)
+{
+	char path[81] = "users/",nick[64], pass1[64],pass2[64];
+	if(action == "add")
+	{
+		std::cout << "Enter name: ";
+		std::cin >> nick;
+		strcat(path, nick);
+		if(FileExists(path))
+		{
+			vslog::error(text::ADD_USER_EXISTED);
+			return;
+		}
+	}
+	else
+	{
+		strcat(path, username);
+	}
+	
+
+	do
+	{
+		std::cout << "Enter password:";
+		get_password(*pass1);
+		std::cout << "Enter password again:";
+		get_password(*pass2);
+		if(str_compare(*pass1,*pass2) == false)vslog::error(text::ADD_USER_ERR_PASS);
+	}
+	while(str_compare(*pass1,*pass2) == false);
+
+	std::ofstream fout(path, std::ios_base::trunc);
+	if(fout.is_open())
+	{
+		fout << pass1;
+		if(action == "add") vslog::message(text::ADD_USER_SUCCESS);
+		if(action == "pass") vslog::message(text::CHANGE_PASS_SUCCESS);
+	}
+	else
+	{
+		vslog::error(text::ADD_USER_FAIL);
+	}
+	fout.close();
+}
+
+bool vslog::str_compare(char &pass1, char &pass2)
+{
+	if(strcmp(&pass1, &pass2) == 0)
+	{
+		return true;
+	}
+	else
+	{
+		return false;
+	}
+}
+
+void vslog::users_list()
+{
+	WIN32_FIND_DATAW wfd;
+    HANDLE const hFind = FindFirstFileW(L"users\\*", &wfd);
+ 
+    if (INVALID_HANDLE_VALUE != hFind)
+    {
+      do
+      {
+        if(!(wfd.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY))std::wcout  << &wfd.cFileName[0]  << std::endl;
+      } while (NULL != FindNextFileW(hFind, &wfd));
+ 
+      FindClose(hFind);
+    }
+}
+
+void vslog::delete_user()
+{
+	char path[81] = "users/",nick[64];
+	std::cout << "Enter name: ";
+	std::cin >> nick;
+	strcat(path, nick);
+	if(!FileExists(path))
+	{
+		vslog::error(text::USER_NOT_EXIST);
+		return;
+	}
+	if(str_compare(*username, *nick))
+	{
+		vslog::error(text::USER_CANT_DELETE_HIMSELF);
+		return;
+	}
+	if (remove(path)==-1)
+	{
+		vslog::message(text::USER_DELETE_FAIL);
+	}
+    else
+	{
+        vslog::message(text::USER_DELETE_SUCCESS);
+	}
+}
+
+bool vslog::access()
+{
+	if(superuser == TRUE)
+	{
+		return TRUE;
+	}
+	else
+	{
+		vslog::message(text::NOT_ALLOWED);
+		return FALSE;
+	}
+}
+
+int vslog::status_log = 0;
+char vslog::username[64] = "";
+char vslog::password[64] = "";
+bool vslog::superuser = false;
+char* vslog::superuser_name = "root";
