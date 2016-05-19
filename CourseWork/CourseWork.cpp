@@ -12,6 +12,8 @@
 #include "paths.h"
 #include "messages.h"
 #include "vslog.h"
+#include "dater.h"
+#include "journal.h"
 #include "menu.h"
 
 using namespace std;
