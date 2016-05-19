@@ -32,7 +32,7 @@ std::string get_message(text msg)
 		message = "Login successfull\r\n Welcome to VSLOG v.1.0.\r\n It is the most easier visiting college log!";
 		break;
 	case HELP:
-		message = "This is help manual for using VSLog:\r\n-help -- help manual \r\n -clear -- clear window \r\n -adduser -- add new user \r\n -pass -- change your pass \r\n -users -- get list of users \r\n -userdel -- delete user";
+		message = "This is help manual for using VSLog:\r\n-help -- help manual \r\n -clear -- clear window \r\n -adduser -- add new user \r\n -pass -- change your pass \r\n -users -- get list of users \r\n -userdel -- delete user \r\n -today -- display today's date";
 		break;
 	case WRONG_COMMAND:
 		message = "You wrote wrong command. Tap -help for information about commands.";

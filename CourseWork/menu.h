@@ -52,6 +52,10 @@ void menu::parse_query()
 	{
 		if(vslog::access())vslog::delete_user();
 	}
+	else if(menu::current_query == "-today")
+	{
+		Dater::display_today();
+	}
 	else
 	{
 		vslog::error(text::WRONG_COMMAND);

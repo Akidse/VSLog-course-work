@@ -6,6 +6,7 @@
 #include <fstream>
 #include <cstring>
 #include <string>
+#include <time.h>
 #include <windows.h>
 #include <io.h>
 #include "functions.h"
