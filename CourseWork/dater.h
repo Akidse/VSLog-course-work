@@ -1,7 +1,7 @@
 class Dater
 {
-	static int currentDate, currentYear, currentDay;
 public:
+	static int currentDate, currentYear, currentDay;
 	static std::string today();
 	static void display_today();
 	static int set_date(std::string date);
