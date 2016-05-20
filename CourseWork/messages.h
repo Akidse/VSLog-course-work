@@ -14,7 +14,8 @@ enum text
 	USER_CANT_DELETE_HIMSELF,
 	USER_DELETE_SUCCESS,
 	USER_DELETE_FAIL,
-	NOT_ALLOWED
+	NOT_ALLOWED,
+	GROUP_NOT_FOUND
 };
 
 std::string get_message(text msg)
@@ -66,6 +67,9 @@ std::string get_message(text msg)
 		break;
 	case NOT_ALLOWED:
 		message = "You are not allowed to do this thing";
+		break;
+	case GROUP_NOT_FOUND:
+		message = "Such group do not exists";
 		break;
 	}
 
