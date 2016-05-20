@@ -8,6 +8,7 @@
 #include <time.h>
 #include <windows.h>
 #include <io.h>
+#include <iomanip> 
 #include "functions.h"
 #include "paths.h"
 #include "messages.h"
@@ -20,6 +21,8 @@ using namespace std;
 
 int _tmain(int argc, _TCHAR* argv[])
 {
+    system("mode con cols=220 lines=50");
+	setlocale(LC_ALL, "Ukrainian");
 	while(vslog::isLogged() == 0)
 	{
 		cout << "Enter username: ";
