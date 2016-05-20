@@ -15,7 +15,9 @@ enum text
 	USER_DELETE_SUCCESS,
 	USER_DELETE_FAIL,
 	NOT_ALLOWED,
-	GROUP_NOT_FOUND
+	GROUP_NOT_FOUND,
+	GROUP_CANT_CREATE,
+	GROUP_CREATED_SUCCESS
 };
 
 std::string get_message(text msg)
@@ -70,6 +72,12 @@ std::string get_message(text msg)
 		break;
 	case GROUP_NOT_FOUND:
 		message = "Such group do not exists";
+		break;
+	case GROUP_CANT_CREATE:
+		message = "Can't create group with such name";
+		break;
+	case GROUP_CREATED_SUCCESS:
+		message = "Group created successfully";
 		break;
 	}
 
