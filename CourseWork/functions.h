@@ -27,6 +27,20 @@ void list(std::string path, bool only_folder)
     }
 }
 
+int count_line_file(std::string file)
+{
+    char *str = new char [1024];
+    int i = 0;
+    std::ifstream base(file);
+    while (!base.eof())
+    {
+        base.getline(str, 1024, '\n');
+        i++;
+    }
+    base.close();
+    delete str;
+	return i;
+}
 
 void cut_str(std::string &str, std::string &buf, int from, int to)
 {
