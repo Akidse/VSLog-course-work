@@ -2,7 +2,7 @@ class menu
 {
 public:
 	static void initialize();
-	static char get_userline();
+	static std::string get_userline();
 	static void parse_query();
 	static std::string current_query;
 };
@@ -19,12 +19,13 @@ void menu::initialize()
 	}
 }
 
-char menu::get_userline()
+std::string menu::get_userline()
 {
-	char userline[86] = "vslog@";
-	strcat(userline, vslog::username);
+	std::string userline = "vslog@";
+	userline = userline + vslog::username;
+	if(Journal::get_group() != "0")userline = userline + "~" + Journal::get_group();
 	std::cout << userline << ": ";
-	return *userline;
+	return userline;
 }
 void menu::parse_query()
 {
@@ -58,7 +59,7 @@ void menu::parse_query()
 	}
 	else if(menu::current_query == "-debug")
 	{
-		std::cout << Dater::set_date("2016.12.12") << std::endl;
+		Journal::set_group();
 	}
 	else
 	{
