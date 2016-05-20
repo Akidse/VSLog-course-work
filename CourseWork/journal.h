@@ -47,7 +47,22 @@ void Journal::set_group(std::string group)
 void Journal::create_group()
 {
 	//if (CreateDirectory("c:\\new",NULL))
-	
+	std::string group;
+	std::cout << "Enter group name:";
+	std::cin >> group;	
+	group = get_path(path::GROUPS) + group;
+	std::wstring stemp = std::wstring(group.begin(), group.end());
+    LPCWSTR sw = stemp.c_str();
+	if (CreateDirectory(sw,NULL))
+	{
+		vslog::message(text::GROUP_CREATED_SUCCESS);
+		std::ofstream ofs(group+"/students");
+        ofs.close();
+	}
+	else
+	{
+		vslog::error(text::GROUP_CANT_CREATE);
+	}
 }
 
 std::string Journal::currentGroup = "0";
