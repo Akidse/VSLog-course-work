@@ -56,6 +56,10 @@ void menu::parse_query()
 	{
 		Dater::display_today();
 	}
+	else if(menu::current_query == "-debug")
+	{
+		std::cout << Dater::set_date("2016.12.12") << std::endl;
+	}
 	else
 	{
 		vslog::error(text::WRONG_COMMAND);
