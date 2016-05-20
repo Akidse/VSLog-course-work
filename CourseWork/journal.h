@@ -6,6 +6,7 @@ public:
 	static std::string get_group();
 	static void set_group(std::string group);
 	static void create_group();
+	static void list_groups();
 };
 
 std::string Journal::get_group()
@@ -63,6 +64,10 @@ void Journal::create_group()
 	{
 		vslog::error(text::GROUP_CANT_CREATE);
 	}
+}
+void Journal::list_groups()
+{
+	list(get_path(path::GROUPS)+"*", 1);
 }
 
 std::string Journal::currentGroup = "0";
