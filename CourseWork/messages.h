@@ -17,7 +17,8 @@ enum text
 	NOT_ALLOWED,
 	GROUP_NOT_FOUND,
 	GROUP_CANT_CREATE,
-	GROUP_CREATED_SUCCESS
+	GROUP_CREATED_SUCCESS,
+	GROUP_NOT_CHOSEN
 };
 
 std::string get_message(text msg)
@@ -32,7 +33,7 @@ std::string get_message(text msg)
 		message = "You enter bad login data";
 		break;
 	case START_PAGE:
-		message = "Login successfull\r\n Welcome to VSLOG v.1.0.\r\n It is the most easier visiting college log!";
+		message = "  Login successfull\n  Welcome to VSLOG v.1.0.\n\n  ¶¶``¶¶```¶¶¶¶```¶¶```````¶¶¶¶````¶¶¶¶\n  ¶¶``¶¶``¶¶``````¶¶``````¶¶``¶¶``¶¶\n  ¶¶``¶¶```¶¶¶¶```¶¶``````¶¶``¶¶``¶¶`¶¶¶\n  `¶¶¶¶```````¶¶``¶¶``````¶¶``¶¶``¶¶``¶¶\n  ``¶¶`````¶¶¶¶```¶¶¶¶¶¶```¶¶¶¶````¶¶¶¶\n\n   It is the most easier visiting college log!";
 		break;
 	case HELP:
 		message = "This is help manual for using VSLog:\r\n-help -- help manual \r\n -clear -- clear window \r\n -adduser -- add new user \r\n -pass -- change your pass \r\n -users -- get list of users \r\n -userdel -- delete user \r\n -today -- display today's date";
@@ -78,6 +79,9 @@ std::string get_message(text msg)
 		break;
 	case GROUP_CREATED_SUCCESS:
 		message = "Group created successfully";
+		break;
+	case GROUP_NOT_CHOSEN:
+		message = "Group wasn't chosen. Please choose group";
 		break;
 	}
 
