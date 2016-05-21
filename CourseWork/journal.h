@@ -86,17 +86,26 @@ void Journal::list_groups()
 }
 void Journal::add_student()
 {
+	if(get_group() == "0")
+	{
+		vslog::error(text::GROUP_NOT_CHOSEN);
+		return;
+	}
 	std::string name;
 	std::cout << "Enter student name: ";
 	int num = count_line_file(get_path(path::GROUPS)+currentGroup+"/students");
 	getline(std::cin,name);
-	//std::cin.ignore();
 	std::ofstream fout(get_path(path::GROUPS)+currentGroup+"/students",std::ios_base::app);
 	fout << name << "\n";
 	fout.close();
 }
 void Journal::list_students()
 {
+	if(get_group() == "0")
+	{
+		vslog::error(text::GROUP_NOT_CHOSEN);
+		return;
+	}
 	std::string line;
 	std::ifstream myfile(get_path(path::GROUPS)+currentGroup+"/students");
 	int lines = 0;
@@ -120,6 +129,11 @@ void Journal::list_students()
 
 void Journal::display(int year, int month)
 {
+	if(get_group() == "0")
+	{
+		vslog::error(text::GROUP_NOT_CHOSEN);
+		return;
+	}
 	std::cout << "Names" << std::setw(20) << " | ";
 	for(int i = 0; i < 10; i++)std::cout << std::setw(2) << i << "  |";
 	for(int i = 10; i <= 30; i++)std::cout << std::setw(3) << i << "  |";
@@ -206,7 +220,6 @@ bool Journal::set_data(int num, int year, int month)
 					}
 				}
 			}
-			//
 			if(j == 2 && temp_id != "" && temp_date != ""){if(std::stoi(temp_id) == num && std::stoi(temp_date) > from && std::stoi(temp_date) < till)i++;}
 			temp_id = "", temp_date = "";
 			k = 0;
@@ -269,6 +282,11 @@ bool Journal::set_data(int num, int year, int month)
 }
 void Journal::set_date()
 {
+    if(get_group() == "0")
+	{
+		vslog::error(text::GROUP_NOT_CHOSEN);
+		return;
+	}
 	int year, month;
     std::cout << "Write year: ";
 	std::cin >> year;
@@ -302,6 +320,11 @@ int Journal::found_student_line()
 
 void Journal::write_down()
 {
+    if(get_group() == "0")
+	{
+		vslog::error(text::GROUP_NOT_CHOSEN);
+		return;
+	}
 	std::string date;
 	int mark, cur_date, student_num;
 	std::cout << "To write-down something enter such data: " << std::endl;
