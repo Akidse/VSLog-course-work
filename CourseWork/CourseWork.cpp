@@ -21,7 +21,11 @@ using namespace std;
 
 int _tmain(int argc, _TCHAR* argv[])
 {
-    system("mode con cols=220 lines=50");
+    HWND console = GetConsoleWindow();
+    RECT r;
+    GetWindowRect(console, &r);
+    MoveWindow(console, 50, r.top, 1750, 700, TRUE);
+    //system("mode con cols=210");
 	setlocale(LC_ALL, "Ukrainian");
 	while(vslog::isLogged() == 0)
 	{
