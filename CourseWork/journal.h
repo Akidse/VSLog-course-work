@@ -124,7 +124,7 @@ void Journal::list_students()
 		if(lines == 0)std::cout << "Without students" << std::endl;
 		myfile.close();
 	}
-	else std::cout << "Unable to open file"; 
+	else vslog::error(text::STUDENTS_FILE_NOT_FOUND);
 }
 
 void Journal::display(int year, int month)
@@ -290,10 +290,18 @@ void Journal::set_date()
 	int year, month;
     std::cout << "Write year: ";
 	std::cin >> year;
-	if(year < 1970 || year > 2100)return;
+	if(year < 1970 || year > 2100)
+	{
+		vslog::error(text::BAD_YEAR);
+			return;
+	}
     std::cout << "Write month:  ";
 	std::cin >> month;	
-	if(month < 1 || month > 12)return;
+	if(month < 1 || month > 12)
+	{
+		vslog::error(text::BAD_MONTH);
+		return;
+	}
 	display(year, month);
 }
 int Journal::found_student_line()
@@ -329,14 +337,26 @@ void Journal::write_down()
 	int mark, cur_date, student_num;
 	std::cout << "To write-down something enter such data: " << std::endl;
 	student_num = found_student_line();
-	if(student_num == 0) return;
+	if(student_num == 0)
+	{
+		    vslog::error(text::STUDENT_NOT_FOUND);
+			return;
+	}
 	std::cout << "Write date in format: year.month.day: ";
 	std::cin >> date;
+	cur_date = Dater::set_date(date);
+	if(cur_date == 0)
+	{
+		vslog::error(text::BAD_DATE);
+		return;
+	}
 	std::cout << "Write mark(1-5), 0 if student wasn't on lesson: ";
 	std::cin >> mark;
-	if(mark > 5 || mark < 0)return;
-	cur_date = Dater::set_date(date);
-	if(cur_date == 0)return;
+	if(mark > 5 || mark < 0)
+	{
+	    vslog::error(text::BAD_MARK);
+		return;
+	}
 	std::ofstream fout(get_path(path::GROUPS)+currentGroup+"/"+std::to_string(Dater::currentYear),std::ios_base::app);
 	fout << std::to_string(student_num)+" "+std::to_string(cur_date)+" "+std::to_string(mark)+"\n";
 	fout.close();
