@@ -36,7 +36,6 @@ void vslog::verify()
 	std::string path;
 	char filepass[64];
 	path = get_path(path::USERS) + username;
-	std::cout << path << std::endl;
 	std::ifstream fpass;
 	fpass.open(path);
 	setLogged(0);
@@ -64,14 +63,14 @@ void vslog::message(text message)
 	HANDLE hwnd = GetStdHandle(STD_OUTPUT_HANDLE);
     SetConsoleTextAttribute(hwnd, FOREGROUND_GREEN);
 	std::cout << get_message(message) << std::endl;
-	SetConsoleTextAttribute(hwnd, FOREGROUND_INTENSITY);
+	SetConsoleTextAttribute(hwnd, FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE);
 }
 void vslog::error(text error)
 {
 	HANDLE hwnd = GetStdHandle(STD_OUTPUT_HANDLE);
     SetConsoleTextAttribute(hwnd, FOREGROUND_INTENSITY | FOREGROUND_RED);
 	std::cout << get_message(error) << std::endl;
-	SetConsoleTextAttribute(hwnd, FOREGROUND_INTENSITY);
+	SetConsoleTextAttribute(hwnd, FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE);
 }
 
 void vslog::get_password(char &var)
