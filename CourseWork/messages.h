@@ -33,10 +33,10 @@ std::string get_message(text msg)
 		message = "You enter bad login data";
 		break;
 	case START_PAGE:
-		message = "  Login successfull\n  Welcome to VSLOG v.1.0.\n\n  ¶¶``¶¶```¶¶¶¶```¶¶```````¶¶¶¶````¶¶¶¶\n  ¶¶``¶¶``¶¶``````¶¶``````¶¶``¶¶``¶¶\n  ¶¶``¶¶```¶¶¶¶```¶¶``````¶¶``¶¶``¶¶`¶¶¶\n  `¶¶¶¶```````¶¶``¶¶``````¶¶``¶¶``¶¶``¶¶\n  ``¶¶`````¶¶¶¶```¶¶¶¶¶¶```¶¶¶¶````¶¶¶¶\n\n   It is the most easier visiting college log!";
+		message = "  Login successfull\n  Welcome to VSLOG v.1.0.\n\n  ¶¶``¶¶```¶¶¶¶```¶¶```````¶¶¶¶````¶¶¶¶\n  ¶¶``¶¶``¶¶``````¶¶``````¶¶``¶¶``¶¶\n  ¶¶``¶¶```¶¶¶¶```¶¶``````¶¶``¶¶``¶¶`¶¶¶\n  `¶¶¶¶```````¶¶``¶¶``````¶¶``¶¶``¶¶``¶¶\n  ``¶¶`````¶¶¶¶```¶¶¶¶¶¶```¶¶¶¶````¶¶¶¶\n\n   It is the most easier visiting college log! Tap -help for more information";
 		break;
 	case HELP:
-		message = "This is help manual for using VSLog:\r\n-help -- help manual \r\n -clear -- clear window \r\n -adduser -- add new user \r\n -pass -- change your pass \r\n -users -- get list of users \r\n -userdel -- delete user \r\n -today -- display today's date";
+		message = "This is help manual for using VSLog:\r\n -help -- help manual \r\n -clear -- clear window \r\n -adduser -- add new user \r\n -pass -- change your pass \r\n -users -- get list of users \r\n -userdel -- delete user \r\n -today -- display today's date \r\n -groupslist -- display groups list \r\n -groupslist -- display groups list\r\n- addgroup -- add new group\r\n -setgroup -- set group as currrent\r\n -studentslist -- display list of students\r\n -addstudent -- add student to current group\r\n -writedown -- add new notice into journal\r\n -display -- display journal with current group";
 		break;
 	case WRONG_COMMAND:
 		message = "You wrote wrong command. Tap -help for information about commands.";
