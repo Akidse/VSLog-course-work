@@ -21,6 +21,7 @@ public:
 	static void write_down();
 	static bool set_data(int num, int year, int month);
 	static std::string get_mark(int num, int date);
+	static void set_date();
 };
 
 std::string Journal::get_group()
@@ -91,20 +92,27 @@ void Journal::add_student()
 	getline(std::cin,name);
 	//std::cin.ignore();
 	std::ofstream fout(get_path(path::GROUPS)+currentGroup+"/students",std::ios_base::app);
-	fout << name+"\n";
+	fout << name << "\n";
 	fout.close();
 }
 void Journal::list_students()
 {
 	std::string line;
 	std::ifstream myfile(get_path(path::GROUPS)+currentGroup+"/students");
+	int lines = 0;
 	if (myfile.is_open())
 	{
 		while (!myfile.eof())
 		{
+			
 			getline (myfile,line);
-			std::cout << line << std::endl;
+			if(line.length() != 0)
+			{
+			lines++;
+			std::cout << lines << ") " << line << std::endl;
+			}
 		}
+		if(lines == 0)std::cout << "Without students" << std::endl;
 		myfile.close();
 	}
 	else std::cout << "Unable to open file"; 
@@ -127,6 +135,8 @@ void Journal::display(int year, int month)
 			count++;
 			if(count > 9)tab = 3;
 			getline (myfile,line);
+			if(line.length() != 0)
+			{
 			std::cout <<count << " " << line << std::setw(25-line.length() - tab) << " | ";
 			set_data(count, year, month);
 			for(int i = 0; i < 10; i++)
@@ -139,6 +149,7 @@ void Journal::display(int year, int month)
 			}
 			std::cout << std::endl;
 			delete visits;
+			}
 		}
 		myfile.close();
 	}
@@ -255,6 +266,17 @@ bool Journal::set_data(int num, int year, int month)
 	{
 		return false;
 	}
+}
+void Journal::set_date()
+{
+	int year, month;
+    std::cout << "Write year: ";
+	std::cin >> year;
+	if(year < 1970 || year > 2100)return;
+    std::cout << "Write month:  ";
+	std::cin >> month;	
+	if(month < 1 || month > 12)return;
+	display(year, month);
 }
 int Journal::found_student_line()
 {
