@@ -61,11 +61,17 @@ void vslog::verify()
 
 void vslog::message(text message)
 {
+	HANDLE hwnd = GetStdHandle(STD_OUTPUT_HANDLE);
+    SetConsoleTextAttribute(hwnd, FOREGROUND_GREEN);
 	std::cout << get_message(message) << std::endl;
+	SetConsoleTextAttribute(hwnd, FOREGROUND_INTENSITY);
 }
 void vslog::error(text error)
 {
+	HANDLE hwnd = GetStdHandle(STD_OUTPUT_HANDLE);
+    SetConsoleTextAttribute(hwnd, FOREGROUND_INTENSITY | FOREGROUND_RED);
 	std::cout << get_message(error) << std::endl;
+	SetConsoleTextAttribute(hwnd, FOREGROUND_INTENSITY);
 }
 
 void vslog::get_password(char &var)
