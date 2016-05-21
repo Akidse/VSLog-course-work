@@ -18,6 +18,7 @@ public:
 	static void users_list();
 	static void delete_user();
 	static bool access();
+	static std::string echo(text text);
 };
 
 int vslog::isLogged()
@@ -57,7 +58,10 @@ void vslog::verify()
 	}
 	fpass.close();
 }
-
+std::string vslog::echo(text text)
+{
+	return get_message(text);
+}
 void vslog::message(text message)
 {
 	HANDLE hwnd = GetStdHandle(STD_OUTPUT_HANDLE);
@@ -94,7 +98,7 @@ void vslog::user(char* action)
 	char pass1[64],pass2[64];
 	if(action == "add")
 	{
-		std::cout << "Enter name: ";
+		std::cout << vslog::echo(text::ENTER_NAME);
 		std::cin >> nick;
 		path = get_path(path::USERS) + nick;
 		if(FileExists(path))
@@ -111,9 +115,9 @@ void vslog::user(char* action)
 
 	do
 	{
-		std::cout << "Enter password:";
+		std::cout << vslog::echo(text::ENTER_PASSWORD);
 		get_password(*pass1);
-		std::cout << "Enter password again:";
+		std::cout << vslog::echo(text::ENTER_PASSWORD_AGAIN);
 		get_password(*pass2);
 		if(str_compare(*pass1,*pass2) == false)vslog::error(text::ADD_USER_ERR_PASS);
 	}
@@ -163,7 +167,7 @@ void vslog::users_list()
 void vslog::delete_user()
 {
 	std::string path,nick;
-	std::cout << "Enter name: ";
+	std::cout << vslog::echo(text::ENTER_NAME);
 	std::cin >> nick;
 	path = get_path(path::USERS) + nick;
 	if(!FileExists(path))
