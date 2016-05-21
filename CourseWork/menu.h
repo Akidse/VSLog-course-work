@@ -57,9 +57,38 @@ void menu::parse_query()
 	{
 		Dater::display_today();
 	}
-	else if(menu::current_query == "-debug")
+	else if(menu::current_query == "-groupslist")
+	{
+		Journal::list_groups();
+	}
+	else if(menu::current_query == "-studentslist")
+	{
+		Journal::list_students();
+	}
+	else if(menu::current_query == "-addgroup")
+	{
+		Journal::create_group();
+	}
+	else if(menu::current_query == "-setgroup")
 	{
 		Journal::set_group();
+	}
+	else if(menu::current_query == "-addstudent")
+	{
+		Journal::add_student();
+	}
+	else if(menu::current_query == "-writedown")
+	{
+		Journal::write_down();
+	}
+	else if(menu::current_query == "-display")
+	{
+		Journal::set_date();
+	}
+	else if(menu::current_query == "-debug")
+	{
+		Journal::set_group("lool");
+		Journal::display(2016,5);
 	}
 	else
 	{
