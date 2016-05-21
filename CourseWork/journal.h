@@ -38,7 +38,7 @@ std::string Journal::get_group()
 void Journal::set_group()
 {
 	std::string group;
-	std::cout << "Enter group name:";
+	std::cout << vslog::echo(text::ENTER_GROUP_NAME);
 	std::cin >> group;
 	if(!FileExists(get_path(path::GROUPS)+group))
 	{
@@ -64,7 +64,7 @@ void Journal::create_group()
 {
 	//if (CreateDirectory("c:\\new",NULL))
 	std::string group;
-	std::cout << "Enter group name:";
+	std::cout << vslog::echo(text::ENTER_GROUP_NAME);
 	std::cin >> group;	
 	group = get_path(path::GROUPS) + group;
 	std::wstring stemp = std::wstring(group.begin(), group.end());
@@ -92,7 +92,7 @@ void Journal::add_student()
 		return;
 	}
 	std::string name;
-	std::cout << "Enter student name: ";
+	std::cout << vslog::echo(text::ENTER_STUDENT_NAME);
 	int num = count_line_file(get_path(path::GROUPS)+currentGroup+"/students");
 	getline(std::cin,name);
 	std::ofstream fout(get_path(path::GROUPS)+currentGroup+"/students",std::ios_base::app);
@@ -121,7 +121,7 @@ void Journal::list_students()
 			std::cout << lines << ") " << line << std::endl;
 			}
 		}
-		if(lines == 0)std::cout << "Without students" << std::endl;
+		if(lines == 0)vslog::error(text::STUDENTS_EMPTY);
 		myfile.close();
 	}
 	else vslog::error(text::STUDENTS_FILE_NOT_FOUND);
@@ -134,7 +134,7 @@ void Journal::display(int year, int month)
 		vslog::error(text::GROUP_NOT_CHOSEN);
 		return;
 	}
-	std::cout << "Names" << std::setw(20) << " | ";
+	std::cout << vslog::echo(text::JOURNAL_NAMES) << std::setw(20) << " | ";
 	for(int i = 0; i < 10; i++)std::cout << std::setw(2) << i << "  |";
 	for(int i = 10; i <= 30; i++)std::cout << std::setw(3) << i << "  |";
 	std::cout << std::endl;
@@ -288,14 +288,14 @@ void Journal::set_date()
 		return;
 	}
 	int year, month;
-    std::cout << "Write year: ";
+	std::cout << vslog::echo(text::ENTER_YEAR);
 	std::cin >> year;
 	if(year < 1970 || year > 2100)
 	{
 		vslog::error(text::BAD_YEAR);
 			return;
 	}
-    std::cout << "Write month:  ";
+	std::cout << vslog::echo(text::ENTER_MONTH);
 	std::cin >> month;	
 	if(month < 1 || month > 12)
 	{
@@ -307,7 +307,7 @@ void Journal::set_date()
 int Journal::found_student_line()
 {
 	std::string name;
-	std::cout << "Enter username:";
+	std::cout << vslog::echo(text::ENTER_STUDENT_NAME);
 	getline(std::cin, name);
 	std::string line;
 	std::ifstream myfile(get_path(path::GROUPS)+currentGroup+"/students");
@@ -335,14 +335,14 @@ void Journal::write_down()
 	}
 	std::string date;
 	int mark, cur_date, student_num;
-	std::cout << "To write-down something enter such data: " << std::endl;
+	std::cout << vslog::echo(text::WRITE_DOWN) << std::endl;
 	student_num = found_student_line();
 	if(student_num == 0)
 	{
 		    vslog::error(text::STUDENT_NOT_FOUND);
 			return;
 	}
-	std::cout << "Write date in format: year.month.day: ";
+	std::cout << vslog::echo(text::ENTER_DATE);
 	std::cin >> date;
 	cur_date = Dater::set_date(date);
 	if(cur_date == 0)
@@ -350,7 +350,7 @@ void Journal::write_down()
 		vslog::error(text::BAD_DATE);
 		return;
 	}
-	std::cout << "Write mark(1-5), 0 if student wasn't on lesson: ";
+	std::cout << vslog::echo(text::ENTER_MARK);
 	std::cin >> mark;
 	if(mark > 5 || mark < 0)
 	{

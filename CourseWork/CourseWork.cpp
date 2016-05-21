@@ -29,9 +29,9 @@ int _tmain(int argc, _TCHAR* argv[])
 	setlocale(LC_ALL, "Ukrainian");
 	while(vslog::isLogged() == 0)
 	{
-		cout << "Enter username: ";
+		cout << vslog::echo(text::ENTER_NAME);
 		cin >> vslog::username;
-		cout << "Enter password: ";
+		cout << vslog::echo(text::ENTER_PASSWORD);
 		vslog::get_password(*vslog::password);
 		vslog::verify();
 	}
