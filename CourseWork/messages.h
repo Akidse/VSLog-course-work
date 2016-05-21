@@ -18,7 +18,13 @@ enum text
 	GROUP_NOT_FOUND,
 	GROUP_CANT_CREATE,
 	GROUP_CREATED_SUCCESS,
-	GROUP_NOT_CHOSEN
+	GROUP_NOT_CHOSEN,
+	STUDENTS_FILE_NOT_FOUND,
+	BAD_YEAR,
+	BAD_MONTH,
+	STUDENT_NOT_FOUND,
+	BAD_DATE,
+	BAD_MARK
 };
 
 std::string get_message(text msg)
@@ -82,6 +88,24 @@ std::string get_message(text msg)
 		break;
 	case GROUP_NOT_CHOSEN:
 		message = "Group wasn't chosen. Please choose group";
+		break;
+	case STUDENTS_FILE_NOT_FOUND:
+		message = "Can't find students list";
+		break;
+	case BAD_YEAR:
+		message = "You enter wrong year";
+		break;
+	case BAD_MONTH:
+		message = "You enter wrong month";
+		break;
+	case STUDENT_NOT_FOUND:
+		message = "Student not found";
+		break;
+	case BAD_DATE:
+		message = "You enter bad date";
+		break;
+	case BAD_MARK:
+		message = "You enter bad mark";
 		break;
 	}
 
