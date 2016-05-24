@@ -19,6 +19,7 @@ public:
 	static void delete_user();
 	static bool access();
 	static std::string echo(text text);
+	static std::string get_lang();
 };
 
 int vslog::isLogged()
@@ -31,7 +32,14 @@ void vslog::setLogged(int status)
 	if(str_compare(*vslog::username,*superuser_name))vslog::superuser = TRUE; else vslog::superuser = FALSE;
 	status_log = status;
 }
-
+std::string vslog::get_lang()
+{
+  std::string language;
+  std::ifstream filelang("languages/lang.ini");
+  filelang >> language;
+  filelang.close();
+  return language;
+}
 void vslog::verify()
 {
 	std::string path;
