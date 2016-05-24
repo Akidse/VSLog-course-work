@@ -134,9 +134,9 @@ void Journal::display(int year, int month)
 		vslog::error(text::GROUP_NOT_CHOSEN);
 		return;
 	}
-	std::cout << vslog::echo(text::JOURNAL_NAMES) << std::setw(20) << " | ";
-	for(int i = 0; i < 10; i++)std::cout << std::setw(2) << i << "  |";
-	for(int i = 10; i <= 30; i++)std::cout << std::setw(3) << i << "  |";
+	std::cout << vslog::echo(text::JOURNAL_NAMES) << std::setw(15) << "|";
+	for(int i = 1; i < 10; i++)std::cout << std::setw(1) << i << "|";
+	for(int i = 10; i <= Dater::days_in_month(year, month); i++)std::cout << std::setw(2) << i << "|";
 	std::cout << std::endl;
 	int count_students = count_line_file(get_path(path::GROUPS)+currentGroup+"/students");
 	std::string line;
@@ -151,18 +151,18 @@ void Journal::display(int year, int month)
 			getline (myfile,line);
 			if(line.length() != 0)
 			{
-			std::cout <<count << " " << line << std::setw(25-line.length() - tab) << " | ";
+			std::cout <<count << " " << line << std::setw(20-line.length() - tab) << "|";
 			set_data(count, year, month);
-			for(int i = 0; i < 10; i++)
+			for(int i = 1; i < 10; i++)
 			{
-				std::cout << std::setw(2) << get_mark(count, Dater::set_date(std::to_string(year)+"."+std::to_string(month)+"."+std::to_string(i))) << "  |";
+				std::cout << std::setw(1) << get_mark(count, Dater::set_date(std::to_string(year)+"."+std::to_string(month)+"."+std::to_string(i))) << "|";
 			}
 			for(int i = 10; i <= Dater::days_in_month(year, month); i++)
 		    {
-					std::cout << std::setw(3) << get_mark(count, Dater::set_date(std::to_string(year)+"."+std::to_string(month)+"."+std::to_string(i))) << "  |";
+					std::cout << std::setw(2) << get_mark(count, Dater::set_date(std::to_string(year)+"."+std::to_string(month)+"."+std::to_string(i))) << "|";
 			}
 			std::cout << std::endl;
-			delete visits;
+			//delete visits;
 			}
 		}
 		myfile.close();
@@ -215,14 +215,17 @@ bool Journal::set_data(int num, int year, int month)
 					{
 						i_month = k;
 						cut_str(line, temp_date, i_year+1, i_month-1);
-						cut_str(line, temp_mark, i_month+1, line.length());
 						j++;
 					}
 				}
 			}
-			if(j == 2 && temp_id != "" && temp_date != ""){if(std::stoi(temp_id) == num && std::stoi(temp_date) > from && std::stoi(temp_date) < till)i++;}
+			if(j == 2 && temp_id != "" && temp_date != "")
+			{
+				if(std::stoi(temp_id) == num && std::stoi(temp_date) >= from && std::stoi(temp_date) <= till)i++;
+
+			}
 			temp_id = "", temp_date = "";
-			k = 0;
+			j = 0;
 		}
 		myfile.close();
 	}
@@ -234,6 +237,7 @@ bool Journal::set_data(int num, int year, int month)
 		int s = 0;
 		j = 0;
 		bool allow = false;
+		temp_mark = "";
 		if (myfile.is_open())
 		{
 			while (!myfile.eof())
@@ -253,21 +257,21 @@ bool Journal::set_data(int num, int year, int month)
 						{
 							i_month = k;
 							cut_str(line, temp_date, i_year+1, i_month-1);
-							cut_str(line, temp_mark, i_month+2, line.length());
+							cut_str(line, temp_mark, i_month, line.length());
 							j++;
 						}
 					}
 				}
-				if(j == 2 && temp_id != "" && temp_date != "")
+				if(j == 2 && temp_id != "" && temp_date != "" && temp_mark != "")
 				{
-					if(std::stoi(temp_id) == num && std::stoi(temp_date) > from && std::stoi(temp_date) < till)
+					if(std::stoi(temp_id) == num && std::stoi(temp_date) >= from && std::stoi(temp_date) <= till)
 					{
 						visits[s].date = std::stoi(temp_date);
 						visits[s].mark = std::stoi(temp_mark);
 						s++;
 					}
 				}
-				temp_id = "", temp_date = "";
+				temp_id = "", temp_date = "", temp_mark = "";
 				j = 0;
 			}
 			myfile.close();
@@ -314,9 +318,9 @@ int Journal::found_student_line()
 	int i = 0;
 	if (myfile.is_open())
 	{
-		i++;
 		while (!myfile.eof())
 		{
+			i++;
 			getline(myfile,line);
 			if(name == line)return i;
 		}

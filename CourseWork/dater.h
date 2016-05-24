@@ -5,14 +5,15 @@ public:
 	static std::string today();
 	static void display_today();
 	static int set_date(std::string date);
-	static int days_in_month(int m, int y);
+	static int days_in_month(int y, int m);
 	static int count_days(int year, int month, int day);
 };
-int Dater::days_in_month(int m, int y)
+int Dater::days_in_month(int y, int m)
 	{
 		int leap = (1 - (y % 4 + 2) % (y % 4 + 1)) * ((y % 100 + 2) % (y % 100 + 1)) + (1 - (y % 400 + 2) % (y % 400 + 1));
 		return 28 + ((m + (m / 8)) % 2) + 2 % m + ((1 + leap) / m) + (1/m) - (leap/m);
 	}
+
 std::string Dater::today()
 {
 	std::string date, year, month, day;
@@ -36,7 +37,7 @@ int Dater::count_days(int year, int month, int day)
    int count = 0;
    for(int i = 1; i < month; i++)
    {
-	   count+= days_in_month(i, year);
+	   count+= days_in_month(year, i);
    }
    count+=day;
    return count;

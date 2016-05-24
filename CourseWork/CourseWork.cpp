@@ -16,9 +16,7 @@
 #include "dater.h"
 #include "journal.h"
 #include "menu.h"
-
 using namespace std;
-
 int _tmain(int argc, _TCHAR* argv[])
 {
     HWND console = GetConsoleWindow();
