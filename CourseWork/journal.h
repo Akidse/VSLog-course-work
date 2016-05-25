@@ -134,7 +134,7 @@ void Journal::display(int year, int month)
 		vslog::error(text::GROUP_NOT_CHOSEN);
 		return;
 	}
-	std::cout << vslog::echo(text::JOURNAL_NAMES) << std::setw(15) << "|";
+	std::cout << vslog::echo(text::JOURNAL_NAMES) << std::setw(12) << "|";
 	for(int i = 1; i < 10; i++)std::cout << std::setw(1) << i << "|";
 	for(int i = 10; i <= Dater::days_in_month(year, month); i++)std::cout << std::setw(2) << i << "|";
 	std::cout << std::endl;

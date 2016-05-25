@@ -38,5 +38,4 @@ enum text
 	ENTER_DATE,
 	ENTER_MARK
 };
-
-#include "languages/en.h"
+#include "languages/ua.h"
