@@ -2,6 +2,7 @@
 //
 
 #include "stdafx.h"
+#include <locale.h>
 #include <iostream>
 #include <fstream>
 #include <string>
@@ -17,9 +18,12 @@
 #include "journal.h"
 #include "menu.h"
 using namespace std;
+
 int _tmain(int argc, _TCHAR* argv[])
 {
     //system("mode con cols=210");
+	SetConsoleCP(1251);
+    SetConsoleOutputCP(1251);
 	setlocale(LC_ALL, "Ukrainian");
 	while(vslog::isLogged() == 0)
 	{
