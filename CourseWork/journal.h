@@ -1,4 +1,4 @@
-struct student_visit
+﻿struct student_visit
 {
 	int date;
 	int mark;
@@ -22,6 +22,7 @@ public:
 	static bool set_data(int num, int year, int month);
 	static std::string get_mark(int num, int date);
 	static void set_date();
+	static void export(int year, int month);
 };
 
 std::string Journal::get_group()
@@ -169,6 +170,53 @@ void Journal::display(int year, int month)
 	}
 
 }
+void Journal::export(int year, int month)
+{
+	if(get_group() == "0")
+	{
+		vslog::error(text::GROUP_NOT_CHOSEN);
+		return;
+	}
+	std::ofstream html("vslog.html",std::ios_base::trunc);
+	html << "<html><head><meta charset='windows-1251'><link rel='stylesheet' type='text/css' href='./html/style.css'><title>VSLOG</title></head><body>";
+	html << "<div class='title'>" << year <<"."<< month <<"</div><table><tr>";
+	html << "<th>" << vslog::echo(text::JOURNAL_NAMES) << "</th>";
+	for(int i = 1; i <= Dater::days_in_month(year, month); i++)html << "<th>" << i << "</th>";
+	html << "</tr><tr>";
+	int count_students = count_line_file(get_path(path::GROUPS)+currentGroup+"/students");
+	std::string line;
+	std::ifstream myfile(get_path(path::GROUPS)+currentGroup+"/students");
+	
+	int count = 0, tab = 2;
+	if (myfile.is_open())
+	{
+		while (!myfile.eof())
+		{
+			count++;
+			if(count > 9)tab = 3;
+			getline (myfile,line);
+			if(line.length() != 0)
+			{
+			html <<"<td>" << count << " " << line << "</td>";
+			set_data(count, year, month);
+			for(int i = 1; i < 10; i++)
+			{
+				html << "<td>" << get_mark(count, Dater::set_date(std::to_string(year)+"."+std::to_string(month)+"."+std::to_string(i))) << "</td>";
+			}
+			for(int i = 10; i <= Dater::days_in_month(year, month); i++)
+		    {
+					html << "<td>" << get_mark(count, Dater::set_date(std::to_string(year)+"."+std::to_string(month)+"."+std::to_string(i))) << "</td>";
+			}
+			html << "</tr>";
+			}
+		}
+		myfile.close();
+		
+	}
+	html << "</table></body></html>";
+	html.close();
+	ShellExecute( NULL,L"open",L"vslog.html",NULL,NULL,SW_SHOW);
+}
 std::string Journal::get_mark(int num, int date)
 {
 		for(int i = 0; i < number_visits; i++)
@@ -177,7 +225,7 @@ std::string Journal::get_mark(int num, int date)
 			{
 				if(visits[i].mark == 0)
 				{
-					return "�";
+					return "н";
 				}
 				else
 				{

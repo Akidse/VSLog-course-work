@@ -1,0 +1,38 @@
+html, body
+{
+	margin: 0px;
+	padding: 0px;
+	color: #4E4E4E;
+	font-family: calibri;
+}
+table
+{
+	max-width: 1200px;
+	margin:auto;
+	border: 1px solid #2E8EFF;
+	background-color: #E2ECFF;
+	border-radius: 3px;
+}
+th,td
+{
+	padding: 5px;
+	border-radius: 3px;
+	border: 1px solid #2E8EFF;
+	background-color: white;
+	text-align:center;
+	vertical-align: middle;
+}
+th
+{
+	background-color: #E2ECFF;
+}
+td:first-child
+{
+	text-align:left;
+}
+.title
+{
+	font-size: 2em;
+	text-align: center;
+	color: #2E8EFF;
+}
