@@ -22,7 +22,8 @@ public:
 	static bool set_data(int num, int year, int month);
 	static std::string get_mark(int num, int date);
 	static void set_date();
-	static void export(int year, int month);
+	static void set_export_date();
+	static void export_file(int year, int month);
 };
 
 std::string Journal::get_group()
@@ -140,7 +141,7 @@ void Journal::display(int year, int month)
 	for(int i = 10; i <= Dater::days_in_month(year, month); i++)std::cout << std::setw(2) << i << "|";
 	std::cout << std::endl;
 	int count_students = count_line_file(get_path(path::GROUPS)+currentGroup+"/students");
-	std::string line;
+	std::string studentname;
 	std::ifstream myfile(get_path(path::GROUPS)+currentGroup+"/students");
 	int count = 0, tab = 2;
 	if (myfile.is_open())
@@ -149,10 +150,10 @@ void Journal::display(int year, int month)
 		{
 			count++;
 			if(count > 9)tab = 3;
-			getline (myfile,line);
-			if(line.length() != 0)
+			getline (myfile,studentname);
+			if(studentname.length() != 0)
 			{
-			std::cout <<count << " " << line << std::setw(20-line.length() - tab) << "|";
+			std::cout <<count << " " << studentname << std::setw(20-studentname.length() - tab) << "|";
 			set_data(count, year, month);
 			for(int i = 1; i < 10; i++)
 			{
@@ -170,7 +171,7 @@ void Journal::display(int year, int month)
 	}
 
 }
-void Journal::export(int year, int month)
+void Journal::export_file(int year, int month)
 {
 	if(get_group() == "0")
 	{
@@ -179,12 +180,12 @@ void Journal::export(int year, int month)
 	}
 	std::ofstream html("vslog.html",std::ios_base::trunc);
 	html << "<html><head><meta charset='windows-1251'><link rel='stylesheet' type='text/css' href='./html/style.css'><title>VSLOG</title></head><body>";
-	html << "<div class='title'>" << year <<"."<< month <<"</div><table><tr>";
+	html << "<div class='title'>" << currentGroup << " - " << year <<"."<< month <<"</div><table><tr>";
 	html << "<th>" << vslog::echo(text::JOURNAL_NAMES) << "</th>";
 	for(int i = 1; i <= Dater::days_in_month(year, month); i++)html << "<th>" << i << "</th>";
 	html << "</tr><tr>";
 	int count_students = count_line_file(get_path(path::GROUPS)+currentGroup+"/students");
-	std::string line;
+	std::string studentname;
 	std::ifstream myfile(get_path(path::GROUPS)+currentGroup+"/students");
 	
 	int count = 0, tab = 2;
@@ -194,10 +195,10 @@ void Journal::export(int year, int month)
 		{
 			count++;
 			if(count > 9)tab = 3;
-			getline (myfile,line);
-			if(line.length() != 0)
+			getline (myfile,studentname);
+			if(studentname.length() != 0)
 			{
-			html <<"<td>" << count << " " << line << "</td>";
+			html <<"<td>" << count << " " << studentname << "</td>";
 			set_data(count, year, month);
 			for(int i = 1; i < 10; i++)
 			{
@@ -331,6 +332,30 @@ bool Journal::set_data(int num, int year, int month)
 	{
 		return false;
 	}
+}
+void Journal::set_export_date()
+{
+    if(get_group() == "0")
+	{
+		vslog::error(text::GROUP_NOT_CHOSEN);
+		return;
+	}
+	int year, month;
+	std::cout << vslog::echo(text::ENTER_YEAR);
+	std::cin >> year;
+	if(year < 1970 || year > 2100)
+	{
+		vslog::error(text::BAD_YEAR);
+			return;
+	}
+	std::cout << vslog::echo(text::ENTER_MONTH);
+	std::cin >> month;	
+	if(month < 1 || month > 12)
+	{
+		vslog::error(text::BAD_MONTH);
+		return;
+	}
+	export_file(year, month);
 }
 void Journal::set_date()
 {

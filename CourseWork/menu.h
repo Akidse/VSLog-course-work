@@ -21,6 +21,7 @@ void menu::initialize()
 
 std::string menu::get_userline()
 {
+	std::cin.ignore();
 	std::string userline = "vslog@";
 	userline = userline + vslog::username;
 	if(Journal::get_group() != "0")userline = userline + "~" + Journal::get_group();
@@ -85,10 +86,15 @@ void menu::parse_query()
 	{
 		Journal::set_date();
 	}
+	else if(menu::current_query == "-export")
+	{
+		Journal::set_export_date();
+	}
 	else if(menu::current_query == "-debug")
 	{
 		Journal::set_group("lool");
 		Journal::display(2016,5);
+		Journal::export_file(2016,5);
 	}
 	else
 	{
