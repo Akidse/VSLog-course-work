@@ -41,7 +41,8 @@ void Journal::set_group()
 {
 	std::string group;
 	std::cout << vslog::echo(text::ENTER_GROUP_NAME);
-	std::cin >> group;
+	getline(std::cin, group);
+	//std::cin >> group;
 	if(!FileExists(get_path(path::GROUPS)+group))
 	{
 		vslog::error(text::GROUP_NOT_FOUND);
@@ -67,7 +68,8 @@ void Journal::create_group()
 	//if (CreateDirectory("c:\\new",NULL))
 	std::string group;
 	std::cout << vslog::echo(text::ENTER_GROUP_NAME);
-	std::cin >> group;	
+	getline(std::cin, group);
+	//std::cin >> group;	
 	group = get_path(path::GROUPS) + group;
 	std::wstring stemp = std::wstring(group.begin(), group.end());
 	LPCWSTR sw = stemp.c_str();
@@ -340,16 +342,21 @@ void Journal::set_export_date()
 		vslog::error(text::GROUP_NOT_CHOSEN);
 		return;
 	}
+	std::string year_str, month_str;
 	int year, month;
 	std::cout << vslog::echo(text::ENTER_YEAR);
-	std::cin >> year;
+	getline(std::cin, year_str);
+	year = stoi(year_str);
+	//std::cin >> year;
 	if(year < 1970 || year > 2100)
 	{
 		vslog::error(text::BAD_YEAR);
 			return;
 	}
 	std::cout << vslog::echo(text::ENTER_MONTH);
-	std::cin >> month;	
+	getline(std::cin, month_str);
+	month = stoi(month_str);
+	//std::cin >> month;	
 	if(month < 1 || month > 12)
 	{
 		vslog::error(text::BAD_MONTH);
@@ -364,16 +371,21 @@ void Journal::set_date()
 		vslog::error(text::GROUP_NOT_CHOSEN);
 		return;
 	}
+	std::string year_str, month_str;
 	int year, month;
 	std::cout << vslog::echo(text::ENTER_YEAR);
-	std::cin >> year;
+	getline(std::cin, year_str);
+	year = stoi(year_str);
+	//std::cin >> year;
 	if(year < 1970 || year > 2100)
 	{
 		vslog::error(text::BAD_YEAR);
 			return;
 	}
 	std::cout << vslog::echo(text::ENTER_MONTH);
-	std::cin >> month;	
+	getline(std::cin, month_str);
+	month = stoi(month_str);
+	//std::cin >> month;	
 	if(month < 1 || month > 12)
 	{
 		vslog::error(text::BAD_MONTH);
@@ -410,7 +422,7 @@ void Journal::write_down()
 		vslog::error(text::GROUP_NOT_CHOSEN);
 		return;
 	}
-	std::string date;
+	std::string date, mark_str;
 	int mark, cur_date, student_num;
 	std::cout << vslog::echo(text::WRITE_DOWN) << std::endl;
 	student_num = found_student_line();
@@ -420,7 +432,8 @@ void Journal::write_down()
 			return;
 	}
 	std::cout << vslog::echo(text::ENTER_DATE);
-	std::cin >> date;
+	getline(std::cin, date);
+	//std::cin >> date;
 	cur_date = Dater::set_date(date);
 	if(cur_date == 0)
 	{
@@ -428,7 +441,9 @@ void Journal::write_down()
 		return;
 	}
 	std::cout << vslog::echo(text::ENTER_MARK);
-	std::cin >> mark;
+	getline(std::cin, mark_str);
+	//std::cin >> mark;
+	mark = stoi(mark_str);
 	if(mark > 5 || mark < 0)
 	{
 	    vslog::error(text::BAD_MARK);

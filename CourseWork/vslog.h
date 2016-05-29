@@ -2,19 +2,19 @@ class vslog
 {
 	static int status_log;
 	static bool superuser;
-	static char* superuser_name;
+	static std::string superuser_name;
 public:
-	static char username[64];
-	static char password[64];
+	static std::string username;
+	static std::string password;
 	static int isLogged();
 	static void setLogged(int status);
 	static void verify();
 	static void message(text message);
 	static void error(text error);
-	static void get_password(char &var);
+	static void get_password(std::string &var);
 	static void clear_window();
 	static void user(char* action);
-	static bool str_compare(const char pass1, const char pass2);
+	static bool str_compare(std::string str1, std::string str2);
 	static void users_list();
 	static void delete_user();
 	static bool access();
@@ -29,7 +29,7 @@ int vslog::isLogged()
 
 void vslog::setLogged(int status)
 {
-	if(str_compare(*vslog::username,*superuser_name))vslog::superuser = TRUE; else vslog::superuser = FALSE;
+	if(str_compare(vslog::username,vslog::superuser_name))vslog::superuser = TRUE; else vslog::superuser = FALSE;
 	status_log = status;
 }
 std::string vslog::get_lang()
@@ -43,15 +43,15 @@ std::string vslog::get_lang()
 void vslog::verify()
 {
 	std::string path;
-	char filepass[64];
+	std::string filepass;
 	path = get_path(path::USERS) + username;
 	std::ifstream fpass;
 	fpass.open(path);
 	setLogged(0);
 	if(fpass)
 	{
-		fpass >> filepass;
-		if(strcmp(password, filepass) == 0)
+		getline(fpass,filepass);
+		if(str_compare(password, filepass))
 		{
 			setLogged(1);
 		}
@@ -85,13 +85,14 @@ void vslog::error(text error)
 	SetConsoleTextAttribute(hwnd, FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE);
 }
 
-void vslog::get_password(char &var)
+void vslog::get_password(std::string &var)
 {
 	HANDLE hStdin = GetStdHandle(STD_INPUT_HANDLE); 
 	DWORD mode = 0;
 	GetConsoleMode(hStdin, &mode);
 	SetConsoleMode(hStdin, mode & (~ENABLE_ECHO_INPUT));
-	std::cin >> &var;
+	//std::cin >> &var;
+	getline(std::cin, var);
 	std::cout << std::endl;
 	SetConsoleMode(hStdin, mode);
 }
@@ -103,11 +104,12 @@ void vslog::clear_window()
 void vslog::user(char* action)
 {
 	std::string path, nick;
-	char pass1[64],pass2[64];
+	std::string pass1,pass2;
 	if(action == "add")
 	{
 		std::cout << vslog::echo(text::ENTER_NAME);
-		std::cin >> nick;
+		getline(std::cin, nick);
+		//std::cin >> nick;
 		path = get_path(path::USERS) + nick;
 		if(FileExists(path))
 		{
@@ -117,19 +119,18 @@ void vslog::user(char* action)
 	}
 	else
 	{
-		path = get_path(path::USERS) + nick;
+		path = get_path(path::USERS) + vslog::username;
 	}
-	
 
 	do
 	{
 		std::cout << vslog::echo(text::ENTER_PASSWORD);
-		get_password(*pass1);
+		get_password(pass1);
 		std::cout << vslog::echo(text::ENTER_PASSWORD_AGAIN);
-		get_password(*pass2);
-		if(str_compare(*pass1,*pass2) == false)vslog::error(text::ADD_USER_ERR_PASS);
+		get_password(pass2);
+		if(str_compare(pass1,pass2) == false)vslog::error(text::ADD_USER_ERR_PASS);
 	}
-	while(str_compare(*pass1,*pass2) == false);
+	while(str_compare(pass1,pass2) == false);
 
 	std::ofstream fout(path, std::ios_base::trunc);
 	if(fout.is_open())
@@ -145,9 +146,9 @@ void vslog::user(char* action)
 	fout.close();
 }
 
-bool vslog::str_compare(const char pass1, const char pass2)
+bool vslog::str_compare(std::string str1, std::string str2)
 {
-	if(strcmp(&pass1, &pass2) == 0)
+	if(str1 == str2)
 	{
 		return true;
 	}
@@ -176,14 +177,15 @@ void vslog::delete_user()
 {
 	std::string path,nick;
 	std::cout << vslog::echo(text::ENTER_NAME);
-	std::cin >> nick;
+	//std::cin >> nick;
+	getline(std::cin, nick);
 	path = get_path(path::USERS) + nick;
 	if(!FileExists(path))
 	{
 		vslog::error(text::USER_NOT_EXIST);
 		return;
 	}
-	if(str_compare(*username, *nick.c_str()))
+	if(str_compare(username, nick.c_str()))
 	{
 		vslog::error(text::USER_CANT_DELETE_HIMSELF);
 		return;
@@ -212,7 +214,7 @@ bool vslog::access()
 }
 
 int vslog::status_log = 0;
-char vslog::username[64] = "";
-char vslog::password[64] = "";
+std::string vslog::username = "";
+std::string vslog::password = "";
 bool vslog::superuser = false;
-char* vslog::superuser_name = "root";
+std::string vslog::superuser_name = "root";

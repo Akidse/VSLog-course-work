@@ -12,16 +12,15 @@ void menu::initialize()
 	while(true)
 	{
       menu::get_userline();
-	  //getline(std::cin, menu::current_query);
-	  std::cin >> menu::current_query;
-	  std::cin.get();
+	  getline(std::cin, menu::current_query);
+	  //std::cin >> menu::current_query;
+	  //std::cin.get();
 	  menu::parse_query();
 	}
 }
 
 std::string menu::get_userline()
 {
-	std::cin.ignore();
 	std::string userline = "vslog@";
 	userline = userline + vslog::username;
 	if(Journal::get_group() != "0")userline = userline + "~" + Journal::get_group();

@@ -28,9 +28,10 @@ int _tmain(int argc, _TCHAR* argv[])
 	while(vslog::isLogged() == 0)
 	{
 		cout << vslog::echo(text::ENTER_NAME);
-		cin >> vslog::username;
+		getline(std::cin, vslog::username);
+		//cin >> vslog::username;
 		cout << vslog::echo(text::ENTER_PASSWORD);
-		vslog::get_password(*vslog::password);
+		vslog::get_password(vslog::password);
 		vslog::verify();
 	}
 	vslog::clear_window();
